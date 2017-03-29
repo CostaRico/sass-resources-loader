@@ -21,13 +21,14 @@ module.exports = function(source) {
   logger.debug(`Hey, we're in DEBUG mode! Yabba dabba doo!`);
 
   // TODO: Remove `webpack.options.sassResources` support after first stable webpack@2 release
-  const resourcesFromConfig =
+  let resourcesFromConfig =
     webpack.version !== 2
     ? webpack.options.sassResources
-    : loaderUtils.parseQuery(this.query).resources
-  ;
-  if(!resourcesFromConfig){resourcesFromConfig = webpack.options.sassResources}
-  
+    : loaderUtils.parseQuery(this.query).resources;
+
+  if (!resourcesFromConfig) {
+    resourcesFromConfig = webpack.options.sassResources;
+  }
   const resourcesLocations = parseResources(resourcesFromConfig);
   const moduleContext = webpack.context;
   const webpackConfigContext = webpack.options.context || process.cwd();
